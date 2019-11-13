@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}All texts: {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Original text</th>
+        <th scope="col">Translated</th>
+        <th scope="col">Created at</th>
+        <th scope="col">Approved at</th>
+        <th scope="col">Approve</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for text in texts %}
+    <tr>
+        <th scope="row">{{text.id}}</th>
+        <td>{{text.original}}</td>
+        <td>{{text.translated}}</td>
+        <td>{{text.created_at}}</td>
+        {% if text.review %}
+            <td>Approved</td>
+            <td>Already approved</td>
+        {% else %}
+            <td>Not yet approved</td>
+            <td>
+                <form action="/approve" method="post">
+                    <input type="hidden" name="text_id" value="{{text.id}}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <button type="submit">Approve</button>
+                </form>
+            </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

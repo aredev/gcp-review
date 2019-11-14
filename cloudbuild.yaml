@@ -1,0 +1,12 @@
+steps:
+  - id: decrypt
+    name: "gcr.io/cloud-builders/gcloud"
+    args:
+      - kms
+      - decrypt
+      - --ciphertext-file=.env.encrypted
+      - --plaintext-file=.env
+      - --key=projects/abdullah-peter-prep/locations/global/keyRings/cloudbuild_demo/cryptoKeys/env_key
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy"]
+timeout: "1600s"

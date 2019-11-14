@@ -7,6 +7,13 @@ steps:
       - --ciphertext-file=.env.encrypted
       - --plaintext-file=.env
       - --key=projects/abdullah-peter-prep/locations/global/keyRings/cloudbuild_demo/cryptoKeys/env_key
+  - id: unittest
+    name: "gcr.io/google-appengine/python"
+    args:
+      - python3.7
+      - -m
+      - unittest
+      - maintest.py
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy"]
 timeout: "1600s"
